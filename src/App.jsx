@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import ZodiacList from "./components/ZodiacList";
 import { getHoroscope } from "./utils/axios";
