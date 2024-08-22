@@ -1,21 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
 
-function App() {
-  useEffect(() => {
-    // Инициализация Telegram WebApp
-    const tg = window.Telegram.WebApp;
-    tg.ready();
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
 
-    // Например, можно установить основной цвет темы
-    tg.MainButton.setText("Закрыть");
-    tg.MainButton.show();
-  }, []);
-
-  return (
-    <div className="App">
-      <h1>Welcome to Telegram MiniApp!</h1>
-    </div>
-  );
-}
-
-export default App;
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
