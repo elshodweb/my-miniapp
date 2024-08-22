@@ -50,6 +50,9 @@ function App() {
     const newLang = locale === "en" ? "ru" : "en";
     i18n.changeLanguage(newLang);
     setLocale(newLang);
+    if (selectedSign) {
+      setSelectedSign(null);
+    }
   };
 
   return (
