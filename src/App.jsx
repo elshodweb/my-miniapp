@@ -14,16 +14,17 @@ function App() {
   useEffect(() => {
     const telegram = window.Telegram?.WebApp;
 
-    let userLanguage = "en"; 
+    let userLanguage = "en"; // Default language
 
     if (telegram) {
-      
+      // Attempt to get the language from Telegram WebApp
       userLanguage = telegram.initDataUnsafe?.user?.language || "en";
     } else {
-      
+      // Fallback to browser language if Telegram is not available
       userLanguage = navigator.language || navigator.userLanguage || "en";
     }
 
+    // Update language if detected
     if (userLanguage.startsWith("ru")) {
       i18n.changeLanguage("ru");
       setLocale("ru");
@@ -34,6 +35,18 @@ function App() {
   }, [i18n]);
 
   useEffect(() => {
+    const telegram = window.Telegram?.WebApp;
+
+    if (telegram) {
+      // Listen for the back button press event
+      telegram.onEvent("back_button_pressed", () => {
+        if (selectedSign) {
+          handleBackClick();
+        }
+      });
+    }
+
+    // Add swipe event listener for mobile devices
     const handleSwipe = (event) => {
       if (event.type === "swiped-right" && selectedSign) {
         handleBackClick();
@@ -97,6 +110,7 @@ function App() {
         <div className="modal" ref={modalRef}>
           <h2>{t(`zodiac.${selectedSign}.name`)}</h2>
           <p>{horoscope}</p>
+          <button onClick={handleBackClick}>{t("back")}</button>
         </div>
       ) : (
         <ZodiacList onSignClick={handleSignClick} />
