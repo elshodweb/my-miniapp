@@ -1,19 +1,23 @@
-import React, { useEffect } from 'react';
+import logo from './logo.svg';
+import './App.css';
 
 function App() {
-  useEffect(() => {
-    // Инициализация Telegram WebApp
-    const tg = window.Telegram.WebApp;
-    tg.ready();
-    
-    // Например, можно установить основной цвет темы
-    tg.MainButton.setText("Закрыть");
-    tg.MainButton.show();
-  }, []);
-
   return (
     <div className="App">
-      <h1>Welcome to Telegram MiniApp!</h1>
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
     </div>
   );
 }
