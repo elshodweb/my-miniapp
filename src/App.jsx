@@ -9,7 +9,6 @@ function App() {
   const [horoscope, setHoroscope] = useState(null);
   const [locale, setLocale] = useState("en");
   const { i18n, t } = useTranslation();
-  const modalRef = useRef(null);
 
   useEffect(() => {
     const telegram = window.Telegram?.WebApp;
@@ -34,36 +33,6 @@ function App() {
     }
   }, [i18n]);
 
-  useEffect(() => {
-    const telegram = window.Telegram?.WebApp;
-
-    if (telegram) {
-      // Listen for the back button press event
-      telegram.onEvent("back_button_pressed", () => {
-        if (selectedSign) {
-          handleBackClick();
-        }
-      });
-    }
-
-    // Add swipe event listener for mobile devices
-    const handleSwipe = (event) => {
-      if (event.type === "swiped-right" && selectedSign) {
-        handleBackClick();
-      }
-    };
-
-    const modal = modalRef.current;
-    if (modal) {
-      modal.addEventListener("swiped-right", handleSwipe);
-    }
-
-    return () => {
-      if (modal) {
-        modal.removeEventListener("swiped-right", handleSwipe);
-      }
-    };
-  }, [selectedSign]);
 
   const fetchHoroscope = async (sign) => {
     try {
@@ -107,10 +76,9 @@ function App() {
         )}
       </header>
       {selectedSign ? (
-        <div className="modal" ref={modalRef}>
+        <div className="modal" >
           <h2>{t(`zodiac.${selectedSign}.name`)}</h2>
           <p>{horoscope}</p>
-          <button onClick={handleBackClick}>{t("back")}</button>
         </div>
       ) : (
         <ZodiacList onSignClick={handleSignClick} />
