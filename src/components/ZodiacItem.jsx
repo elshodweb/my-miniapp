@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 
 function ZodiacItem({ sign, onSignClick }) {
   const { t } = useTranslation();
-  console.log(sign);
 
   return (
     <div className="zodiac-item" onClick={() => onSignClick(sign.id)}>
