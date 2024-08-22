@@ -5,7 +5,7 @@ function App() {
     // Инициализация Telegram WebApp
     const tg = window.Telegram.WebApp;
     tg.ready();
-
+    
     // Например, можно установить основной цвет темы
     tg.MainButton.setText("Закрыть");
     tg.MainButton.show();
