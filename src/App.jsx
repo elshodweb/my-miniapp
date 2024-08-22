@@ -13,7 +13,15 @@ function App() {
   useEffect(() => {
     const telegram = window.Telegram?.WebApp;
 
-    const userLanguage = navigator.language || navigator.userLanguage;
+    let userLanguage = "en"; // Default language
+
+    if (telegram) {
+      // Telegram language detection
+      userLanguage = telegram.initDataUnsafe?.user?.language || "en";
+    } else {
+      // Fallback to browser language if Telegram is not available
+      userLanguage = navigator.language || navigator.userLanguage || "en";
+    }
 
     if (userLanguage.startsWith("ru")) {
       i18n.changeLanguage("ru");
@@ -65,7 +73,7 @@ function App() {
       </header>
       {selectedSign ? (
         <div className="modal">
-          <h2>{selectedSign}</h2>
+          <h2>{t(`zodiac.${selectedSign}.name`)}</h2>
           <p>{horoscope}</p>
         </div>
       ) : (
