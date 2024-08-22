@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import ZodiacList from "./components/ZodiacList";
 import { getHoroscope } from "./utils/axios";
@@ -9,17 +9,18 @@ function App() {
   const [horoscope, setHoroscope] = useState(null);
   const [locale, setLocale] = useState("en");
   const { i18n, t } = useTranslation();
+  const modalRef = useRef(null);
 
   useEffect(() => {
     const telegram = window.Telegram?.WebApp;
 
-    let userLanguage = "en"; // Default language
+    let userLanguage = "en"; 
 
     if (telegram) {
-      // Telegram language detection
+      
       userLanguage = telegram.initDataUnsafe?.user?.language || "en";
     } else {
-      // Fallback to browser language if Telegram is not available
+      
       userLanguage = navigator.language || navigator.userLanguage || "en";
     }
 
@@ -31,6 +32,25 @@ function App() {
       setLocale("en");
     }
   }, [i18n]);
+
+  useEffect(() => {
+    const handleSwipe = (event) => {
+      if (event.type === "swiped-right" && selectedSign) {
+        handleBackClick();
+      }
+    };
+
+    const modal = modalRef.current;
+    if (modal) {
+      modal.addEventListener("swiped-right", handleSwipe);
+    }
+
+    return () => {
+      if (modal) {
+        modal.removeEventListener("swiped-right", handleSwipe);
+      }
+    };
+  }, [selectedSign]);
 
   const fetchHoroscope = async (sign) => {
     try {
@@ -69,12 +89,15 @@ function App() {
         <button onClick={handleLanguageSwitch}>
           {locale === "en" ? t("switchToRussian") : t("switchToEnglish")}
         </button>
-        {selectedSign && <button onClick={handleBackClick}>{t("back")}</button>}
+        {selectedSign && (
+          <button onClick={handleBackClick}>{t("back")}</button>
+        )}
       </header>
       {selectedSign ? (
-        <div className="modal">
+        <div className="modal" ref={modalRef}>
           <h2>{t(`zodiac.${selectedSign}.name`)}</h2>
           <p>{horoscope}</p>
+          <button onClick={handleBackClick}>{t("back")}</button>
         </div>
       ) : (
         <ZodiacList onSignClick={handleSignClick} />
