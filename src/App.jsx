@@ -97,7 +97,6 @@ function App() {
         <div className="modal" ref={modalRef}>
           <h2>{t(`zodiac.${selectedSign}.name`)}</h2>
           <p>{horoscope}</p>
-          <button onClick={handleBackClick}>{t("back")}</button>
         </div>
       ) : (
         <ZodiacList onSignClick={handleSignClick} />
